@@ -10,8 +10,7 @@ export default function homePage() {
     {/* HEADER */}
     <Header />
 
-      <div className="bg-white relative overflow-hidden min-h-screen"
-      style={{ aspectRatio: '16/9' }}>
+      <div className="bg-white relative overflow-hidden min-h-screen">
 
         <div className="relative w-full">
 
