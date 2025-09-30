@@ -6,6 +6,7 @@ Command: npx gltfjsx@6.5.3 public/models/bm-13evo.glb -o src/components/Bm13Evo.
 
 import * as THREE from 'three'
 import React from 'react'
+import { useEffect } from "react"
 import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 
@@ -1336,7 +1337,20 @@ type GLTFResult = GLTF & {
 }
 
 export default function Bm13Evo(props: React.ComponentProps<"group">) {
-  const { nodes, materials } = useGLTF('/bm-13evo.glb') as unknown as GLTFResult
+  const gltf = useGLTF("/models/bm-13evo.glb") as unknown as GLTFResult
+  const { nodes, materials } = gltf
+
+ useEffect(() => {
+  if (!gltf?.scene) return
+  gltf.scene.traverse((child: THREE.Object3D) => {
+    const mesh = child as THREE.Mesh
+    if (mesh.isMesh) {
+      mesh.castShadow = true
+      mesh.receiveShadow = true
+    }
+  })
+}, [gltf])
+
   return (
     <group {...props} dispose={null}>
       <group position={[-3.063, 0.65, 0]} scale={0.003}>
