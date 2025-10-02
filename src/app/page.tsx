@@ -18,10 +18,10 @@ export default function HomePage() {
         <div className="relative w-full">
 
           {/* HERO SECTION */}
-          <div className="w-screen min-px-[20px] sm:min-px-[30px] md:min-px-[40px] lg:min-px-[50px] max-h-[1080px] flex">
+          <div className="w-screen min-px-[20px] sm:min-px-[30px] md:min-px-[40px] lg:min-px-[50px] max-h-[1080px] relative flex">
 
             {/* Camera Control Buttons */}
-            <div className="min-w-[6.458vw] md:min-w-[6.458vw] min-h-[760px] lg:min-py-[60px] flex grid-rows-1 gap-auto absolute bg-[#AE0101] rounded-full">
+            <div className="max-w-[6.458vw] md:max-w-[6.458vw] max-h-[760px] lg:min-py-[60px] flex grid-rows-1 gap-auto absolute bg-[#AE0101] rounded-full z-index-10">
               
               <button
               className="mx-[10px]"
@@ -48,19 +48,19 @@ export default function HomePage() {
             {/* PLACEHOLDER*/}
             <button
               onClick={() => setCamPos([0, 2, 5])}
-              className="px-3 py-1 bg-[#AE0101] text-white rounded"
+              className="px-3 py-1 bg-[#AE0101] text-white rounded z-index-11"
             >
               Front
             </button>
             <button
               onClick={() => setCamPos([5, 3, 5])}
-              className="px-3 py-1 bg-[#AE0101] text-white rounded"
+              className="px-3 py-1 bg-[#AE0101] text-white rounded z-index-11"
             >
               Side
             </button>
             <button
               onClick={() => setCamPos([0, 8, 0])}
-              className="px-3 py-1 bg-[#AE0101] text-white rounded"
+              className="px-3 py-1 bg-[#AE0101] text-white rounded z-index-11"
             >
               Top
             </button>
