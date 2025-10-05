@@ -23,7 +23,7 @@ export const Header = () => {
 
   return (
     /* HEADER */
-    <header className="w-screen min-h-[60px] sm:min-h=[60px] lg:min-h-[120px] px-[5vw] min-pt-[20px] sm:min-pt-[20px] lg:min-pt-[40px] gap-auto flex justify between items-end box-border">
+    <header className="w-screen min-h-[60px] sm:min-h=[60px] lg:min-h-[120px] px-[5vw] min-pt-[2.5vw] sm:min-pt-[10px] lg:min-pt-[20px] gap-auto flex justify between items-end box-border">
 
       <div className="flex justify-between items-center w-full">
       {/* LOGO */}
@@ -48,7 +48,7 @@ export const Header = () => {
             href={item.href}
             className="relative rounded-full px-4 md:px-[20px] py-2 md:py-[10px] text-[#AE0101] font-century-gothic-regular transition-all duration-300 overflow-hidden
                 before:absolute before:inset-0 before:bg-[#AE0101] before:rounded-full before:w-0 before:h-full before:z-0 before:transition-all before:duration-300
-                hover:before:w-full hover:text-white text-lg md:text-2xl"
+                hover:before:w-full hover:text-white text-xs sm:text-sm md:text-base lg:text-sm xl:text-base 2xl:text-lg"
             style={{ zIndex: 1 }}
           >
             <span className="relative z-10">
