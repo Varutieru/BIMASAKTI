@@ -15,13 +15,11 @@ export default function CameraController({
 }: CameraControllerProps) {
   const { camera } = useThree();
 
-  // Animate camera position with spring
   const { position } = useSpring({
     position: targetPosition,
     config: { mass: 1, tension: 120, friction: 20 },
   });
 
-  // Update camera each frame using interpolated spring value
   useFrame(() => {
     const pos = position.get();
     camera.position.set(pos[0], pos[1], pos[2]);

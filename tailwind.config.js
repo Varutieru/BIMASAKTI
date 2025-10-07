@@ -12,6 +12,8 @@ module.exports = {
         'century-gothic-bold': ['Century Gothic Bold', 'Arial', 'sans-serif'],
         'monument-extended-regular': ['Monument Extended Regular', 'Arial', 'sans-serif'],
         'monument-extended-black': ['Monument Extended Black', 'Arial', 'sans-serif'],
+        'calcio': ['Calcio', 'Arial', 'sans-serif'],
+        'nos': ['nos', 'Arial', 'sans-serif'],
       },
     },
   },

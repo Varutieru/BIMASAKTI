@@ -16,6 +16,15 @@
   --font-century-gothic-bold: 'Century Gothic Bold', Arial, sans-serif;
   --font-monument-extended-regular: 'Monument Extended Regular', Arial, sans-serif;
   --font-monument-extended-black: 'Monument Extended Black', Arial, sans-serif;
+  --font-calcio: 'Calcio', Arial, sans-serif;
+  --font-nos: 'nos', Arial, sans-serif;
+}
+
+@font-face {
+  font-family: 'nos';
+  src: url(/fonts/nos.ttf) format('truetype');
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
@@ -50,6 +59,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Calcio';
+  src: url(/fonts/Calcio.ttf) format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -69,6 +86,23 @@ body {
   }
 }
 
+@keyframes fadeRevealIntro{
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(4px);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 0%);
+    mask-image: linear-gradient(to bottom, black 0%, transparent 0%);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+    -webkit-mask-image: linear-gradient(to bottom, black 100%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 100%, transparent 100%);
+  }
+}
+
 @keyframes fadeRevealOut {
   from {
     opacity: 1;
@@ -82,7 +116,6 @@ body {
   }
 }
 
-/* Animation Classes */
 .fade-reveal-in {
   animation: fadeRevealIn 0.5s ease-out forwards;
 }
@@ -91,7 +124,6 @@ body {
   animation: fadeRevealOut 0.5s ease-in forwards;
 }
 
-/* Optional: Add animation delay variants */
 .fade-reveal-in-delayed {
   animation: fadeRevealIn 0.5s ease-out 0.3s forwards;
   opacity: 0;
@@ -99,4 +131,8 @@ body {
 
 .fade-reveal-out-fast {
   animation: fadeRevealOut 0.3s ease-in forwards;
+}
+
+.fade-reveal-load {
+  animation: fadeRevealIntro 5s ease-in forwards;
 }
