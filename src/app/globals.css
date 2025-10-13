@@ -18,12 +18,22 @@
   --font-monument-extended-black: 'Monument Extended Black', Arial, sans-serif;
   --font-calcio: 'Calcio', Arial, sans-serif;
   --font-nos: 'nos', Arial, sans-serif;
+  --font-integralcf-reqular-oblique: 'IntegralCF Reqular Oblique', Arial, sans-serif;
 }
 
 @font-face {
   font-family: 'nos';
   src: url(/fonts/nos.ttf) format('truetype');
   font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IntegralCF Reqular Oblique';
+  src: url(/fonts/IntegralCF-RegularOblique.otf) format('opentype');
+  font-weight: 400;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -71,6 +81,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: clip;
+  max-width: 100vw;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+  max-width: 100vw;
 }
 
 @keyframes fadeRevealIn {

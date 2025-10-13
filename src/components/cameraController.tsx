@@ -26,5 +26,10 @@ export default function CameraController({
     camera.lookAt(...targetLookAt);
   });
 
+  const { lookAt } = useSpring({
+    lookAt: targetLookAt,
+    config: { mass: 1, tension: 120, friction: 20 },
+  });
+
   return null;
 }

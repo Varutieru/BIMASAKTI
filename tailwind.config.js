@@ -14,6 +14,7 @@ module.exports = {
         'monument-extended-black': ['Monument Extended Black', 'Arial', 'sans-serif'],
         'calcio': ['Calcio', 'Arial', 'sans-serif'],
         'nos': ['nos', 'Arial', 'sans-serif'],
+        'integralcf-reqular-oblique': ['IntegralCF Reqular Oblique', 'Arial', 'sans-serif'],
       },
     },
   },
