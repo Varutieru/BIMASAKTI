@@ -74,14 +74,12 @@ export default function HomePage() {
         const containerHeight = container.offsetHeight;
         const viewportHeight = window.innerHeight;
 
-        // Calculate how far we've scrolled into the mask section
         const scrollStart = Math.max(0, -rect.top);
         const scrollRange = containerHeight - viewportHeight;
         const progress = Math.max(0, Math.min(1, scrollStart / scrollRange));
 
         setScrollProgress(progress);
 
-        // Determine which page is most visible
         const pageIndex = Math.min(
           Math.floor(progress * pages.length),
           pages.length - 1
@@ -150,9 +148,9 @@ export default function HomePage() {
 };
 
   return (
-    <main>
-      <div className="bg-white relative max-w-screen min-h-screen">
-        <div className="relative w-full h-full">
+    <main className="overflow-x-hidden max-w-full">
+      <div className="bg-white relative w-full min-h-screen max-w-full">
+        <div className="relative w-full h-full max-w-full">
 
           {/* HEADER */}
           <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-0 ${isScrolled ? 'bg-[#ffffff]' : 'bg-transparent'}`}>
@@ -160,7 +158,7 @@ export default function HomePage() {
           </header>
 
           {/* HERO SECTION */}
-          <div id="homePage" className="w-screen h-screen relative flex">
+          <div id="homePage" className="w-full h-screen relative flex">
 
             {/* BIMASAKTI TITLE */}
             {showTitle && (
@@ -230,7 +228,7 @@ export default function HomePage() {
             </div>
 
             {/* 3D MODEL */}
-            <div className="relative w-screen fade-reveal-in h-screen z-5">
+            <div className="relative w-full fade-reveal-in h-screen z-5">
               <Canvas
                 shadows={{ type: THREE.PCFSoftShadowMap }}
                 camera={{ position: [0, 2, 5], fov: 50 }}
@@ -296,12 +294,12 @@ export default function HomePage() {
           {/* MASK SLIDER SECTION */}
           <div
             id="maskSliderContainer"
-            className="relative w-screen bg-white"
+            className="relative w-full bg-white"
             style={{ height: `${pages.length * 100}vh`}}
           >
 
             {/* Sticky viewport - pages reveal through clipping mask */}
-            <div className="sticky top-0 w-screen h-screen flex items-center justify-center overflow-hidden">
+            <div className="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden">
 
               {/* All Pages Stacked with Clip Path */}
               {pages.map((page, index) => {
@@ -323,7 +321,7 @@ export default function HomePage() {
                 return (
                   <div
                     key={page.id}
-                    className="absolute inset-0 w-screen h-screen flex items-center justify-center bg-white"
+                    className="absolute inset-0 w-full h-screen flex items-center justify-center bg-white"
                     style={{
                       clipPath: `inset(0 0 ${(1 - clipProgress) * 100}% 0)`,
                       WebkitClipPath: `inset(0 0 ${(1 - clipProgress) * 100}% 0)`,
