@@ -66,7 +66,7 @@ export const Header = () => {
   return (
     <>
       {/* HEADER */}
-      <header className="w-full min-h-[20px] sm:min-h-[60px] md:min-h-[90px] lg:min-h-[120px] px-[5vw] min-pt-[2vw] sm:min-pt-[2vw] lg:min-pt-[2vw] gap-auto flex justify between items-center box-border">
+      <header className="w-full min-h-[20px] sm:min-h-[60px] md:min-h-[90px] lg:min-h-[120px] px-[5vw] min-pt-[2vw] sm:min-pt-[2vw] lg:min-pt-[2vw] gap-auto flex justify-between items-center box-border">
 
         <div className="flex justify-between items-center w-full">
           {/* LOGO */}

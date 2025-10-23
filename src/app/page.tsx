@@ -170,7 +170,7 @@ export default function HomePage() {
                 }`}
               >
                 <h1 
-                  className="text-black text-6xl md:text-8xl lg:text-9xl text-center tracking-wider"
+                  className="text-black min-text-xl sm:text-2xl md:text-7xl lg:text-9xl text-center tracking-wider object-contain"
                   style={{ fontFamily: 'Monument Extended Regular, Arial, sans-serif' }}
                 >
                   BIMASAKTI
