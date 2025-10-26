@@ -9,7 +9,7 @@ import * as THREE from "three";
 
 export default function HomePage() {
   const [camPos, setCamPos] = useState<[number, number, number]>([-7.5, 1.5, 0]);
-  const [lookAt, setLookAt] = useState<[number, number, number]>([0, 1, 0]);
+  const [lookAt, setLookAt] = useState<[number, number, number]>([-1, 1, 0]);
   const [showTitle, setShowTitle] = useState(true);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,35 +21,35 @@ export default function HomePage() {
     { 
       id: 'aboutUsPage', 
       title: 'ABOUT US', 
-      number: '01',
+      number: 'About Us',
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      image: '/assets/slider/aboutUs.svg'
+      image: '/assets/slider/aboutUs.png'
     },
     { 
       id: 'ourCarsPage', 
       title: 'OUR CARS', 
-      number: '02',
+      number: 'Our Cars',
       description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      image: '/images/cars.jpg'
+      image: '/assets/slider/ourCars.svg'
     },
     { 
       id: 'newsPage', 
       title: 'NEWS', 
-      number: '03',
+      number: 'News',
       description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.',
       image: '/images/news.jpg'
     },
     { 
       id: 'contactPage', 
       title: 'CONTACT', 
-      number: '04',
+      number: 'Contact',
       description: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro',
       image: '/images/contact.jpg'
     },
     { 
       id: 'GalleryPage', 
       title: 'GALLERY', 
-      number: '05',
+      number: 'Gallery',
       description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?',
       image: '/images/gallery.jpg'
     },
@@ -148,17 +148,16 @@ export default function HomePage() {
 };
 
   return (
-    <main className="overflow-x-hidden max-w-full">
-      <div className="bg-white relative w-full min-h-screen max-w-full">
-        <div className="relative w-full h-full max-w-full">
-
+     <main>
+      <div className="bg-white relative max-w-screen min-h-screen">
+        <div className="relative w-full h-full">
           {/* HEADER */}
           <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-0 ${isScrolled ? 'bg-[#ffffff]' : 'bg-transparent'}`}>
             <Header />
           </header>
 
           {/* HERO SECTION */}
-          <div id="homePage" className="w-full h-screen relative flex">
+          <div id="homePage" className="w-screen h-screen relative flex">
 
             {/* BIMASAKTI TITLE */}
             {showTitle && (
@@ -182,8 +181,7 @@ export default function HomePage() {
             <div className="absolute left-1/2 -translate-x-1/2 bottom-[10vh] z-40 hover:drop-shadow-[20px_10px_0_rgba(242,1,60,1)] transition-all duration-[340ms]">
               <button
                 onClick={() => {
-                  scrollToSection();
-                  handleCameraChange([-7.5, 1.5, 0]);
+                  scrollToSection()
                 }}
                 type="button"
                 className="flex items-center justify-center bg-[#CC0100] w-[18vw] h-[3.125vw]
@@ -228,7 +226,7 @@ export default function HomePage() {
             </div>
 
             {/* 3D MODEL */}
-            <div className="relative w-full fade-reveal-in h-screen z-5">
+            <div className="relative w-screen fade-reveal-in h-screen z-5">
               <Canvas
                 shadows={{ type: THREE.PCFSoftShadowMap }}
                 camera={{ position: [0, 2, 5], fov: 50 }}
@@ -294,12 +292,12 @@ export default function HomePage() {
           {/* MASK SLIDER SECTION */}
           <div
             id="maskSliderContainer"
-            className="relative w-full bg-white"
+            className="relative w-screen bg-white"
             style={{ height: `${pages.length * 100}vh`}}
           >
 
             {/* Sticky viewport - pages reveal through clipping mask */}
-            <div className="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden">
+            <div className="sticky top-0 w-screen h-screen flex items-center justify-center overflow-hidden">
 
               {/* All Pages Stacked with Clip Path */}
               {pages.map((page, index) => {
@@ -321,19 +319,25 @@ export default function HomePage() {
                 return (
                   <div
                     key={page.id}
-                    className="absolute inset-0 w-full h-screen flex items-center justify-center bg-white"
+                    className="absolute inset-0 w-screen h-screen flex items-center justify-center bg-white"
                     style={{
                       clipPath: `inset(0 0 ${(1 - clipProgress) * 100}% 0)`,
                       WebkitClipPath: `inset(0 0 ${(1 - clipProgress) * 100}% 0)`,
                       zIndex: index,
                       willChange: 'clip-path',
+                      ...(page.id === 'ourCarsPage' && {
+                        backgroundImage: 'url(/assets/slider/bg/ourCars.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'left center',
+                        backgroundRepeat: 'no-repeat',
+                      }),
                     }}
                   >
                     {/* CONTENT */}
-                    <div className="w-full h-full flex flex-col lg:flex-row items-center justify-between px-[5vw] pt-[80px] sm:pt-[80px] md:pt-[100px] lg:pt-[130px] pb-8 gap-8 lg:gap-12">
+                    <div className="w-full h-full flex flex-col lg:flex-row items-center justify-between px-[5vw] pt-[80px] sm:pt-[80px] md:pt-[100px] lg:pt-[130px] pb-8 gap-8 lg:gap-12 overflow-hidden">
 
                       {/* LEFT - IMAGE */}
-                      <div className="w-full lg:w-[45%] h-[40%] lg:h-full relative flex items-center justify-start">
+                      <div className="w-full lg:w-[45%] h-[40%] lg:h-full relative flex items-center justify-start overflow-hidden">
                         <img
                           src={page.image}
                           alt={page.title}
@@ -342,58 +346,76 @@ export default function HomePage() {
                       </div>
 
                       {/* RIGHT - CONTENT */}
-                      <div className="relative w-full lg:w-[50%] h-full flex flex-col items-center justify-center pl-[2vw] gap-6 lg:gap-8">
-                        
-                        {/* Page Markers */}
-                        <div className="absolute top-0 left-0 right-0 flex flex-col pl-[2vw] items-center gap-4">
-                          <div className="flex items-center justify-between w-full">  
-                            {pages.map((pg, idx) => (
-                              <button
-                                key={pg.id}
-                                onClick={() => scrollToPage(idx)}
-                                className={`font-monument-extended-regular text-sm sm:text-base lg:text-lg transition-all duration-300 text-left ${
-                                  currentPage === idx 
-                                    ? 'text-[#CC0100] font-bold scale-110' 
-                                    : 'text-[#999999] hover:text-[#CC0100]'
-                                }`}
-                              >
-                                {pg.number}
-                              </button>
-                            ))}
+                      <div className="relative w-full lg:w-[50%] h-full flex flex-col items-center justify-center pl-[2vw] overflow-hidden">
+
+                        {/* Content Group */}
+                        <div className="w-full flex flex-col gap-6 lg:gap-8">
+                          {/* Page Markers */}
+                          <div className="w-full flex flex-col items-center gap-4">
+                            <div className="flex items-center justify-between w-full">
+                              {pages.map((pg, idx) => {
+                                const isOurCarsPage = page.id === 'ourCarsPage';
+                                const isActive = currentPage === idx;
+
+                                let buttonClasses = 'font-monument-extended-regular text-[8px] sm:text-xs lg:text-sm transition-all duration-300 text-left';
+
+                                if (isActive) {
+                                  buttonClasses += ' text-[#CC0100] font-bold scale-110';
+                                } else if (isOurCarsPage) {
+                                  buttonClasses += ' text-white hover:!text-[#FFCA01]';
+                                } else {
+                                  buttonClasses += ' text-[#999999] hover:!text-[#CC0100]';
+                                }
+
+                                return (
+                                  <button
+                                    key={pg.id}
+                                    onClick={() => scrollToPage(idx)}
+                                    className={buttonClasses}
+                                  >
+                                    {pg.number}
+                                  </button>
+                                );
+                              })}
+                            </div>
+
+                            {/* Line Indicator */}
+                            <div className="relative w-full h-0.5 bg-gray-300">
+                              <div
+                                className="absolute top-0 h-full bg-[#CC0100]"
+                                style={{
+                                  width: `${scrollProgress * 100}%`,
+                                }}
+                              />
+                            </div>
                           </div>
-                          
-                          {/* Line Indicator */}
-                          <div className="relative w-full h-0.5 bg-gray-300">
-                            <div
-                              className="absolute top-0 h-full bg-[#CC0100]"
-                              style={{
-                                width: `${scrollProgress * 100}%`,
-                              }}
-                            />
-                          </div>
+
+                          {/* Description */}
+                          <p className={`text-sm sm:text-base lg:text-lg font-century-gothic-regular leading-relaxed ${
+                            page.id === 'ourCarsPage' ? 'text-white' : 'text-black'
+                          }`}>
+                            {page.description}
+                          </p>
+
+                          {/* Button */}
+                          <button
+                            onClick={() => window.location.href = `/${page.id.replace('Page', '')}`}
+                            className="group relative px-8 py-4 bg-transparent border-2 border-[#CC0100] text-[#CC0100]
+                                      font-bold text-sm sm:text-base tracking-wider self-start
+                                      hover:text-white transition-all duration-300 overflow-hidden"
+                            style={{ fontFamily: 'Monument Extended Regular, Arial, sans-serif' }}
+                          >
+                            <span className="relative z-10">LEARN MORE</span>
+                            <div className="absolute inset-0 bg-[#CC0100] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+                          </button>
+
+                          {/* Tagline */}
+                          <p className={`w-full text-right font-bold italic text-sm sm:text-base lg:text-lg ${
+                            page.id === 'ourCarsPage' ? 'text-[#FFCA01]' : 'text-[#000000]'
+                          }`}>
+                            KEEP ACCELERATING FORWARD.
+                          </p>
                         </div>
-
-                        {/* Description */}
-                        <p className="text-black text-sm sm:text-base lg:text-lg leading-relaxed">
-                          {page.description}
-                        </p>
-
-                        {/* Button */}
-                        <button
-                          onClick={() => window.location.href = `/${page.id.replace('Page', '')}`}
-                          className="group relative px-8 py-4 bg-transparent border-2 border-[#CC0100] text-[#CC0100] 
-                                    font-bold text-sm sm:text-base tracking-wider self-start
-                                    hover:text-white transition-all duration-300 overflow-hidden"
-                          style={{ fontFamily: 'Monument Extended Regular, Arial, sans-serif' }}
-                        >
-                          <span className="relative z-10">LEARN MORE</span>
-                          <div className="absolute inset-0 bg-[#CC0100] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
-                        </button>
-
-                        {/* Tagline */}
-                        <p className="absolute bottom-0 right-0 font-bold italic text-[#000000] text-sm sm:text-base lg:text-lg">
-                          KEEP ACCELERATING FORWARD.
-                        </p>
 
                       </div>
                     </div>
