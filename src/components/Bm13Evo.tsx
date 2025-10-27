@@ -1337,23 +1337,46 @@ type GLTFResult = GLTF & {
 }
 
 export default function Bm13Evo(props: React.ComponentProps<"group">) {
-  const gltf = useGLTF("/models/bm-13evo.glb") as unknown as GLTFResult
+  const [error, setError] = React.useState(false)
+
+  let gltf
+  try {
+    gltf = useGLTF("/models/bm-13evo.glb") as unknown as GLTFResult
+  } catch (e) {
+    console.error('Failed to load 3D model:', e)
+    setError(true)
+  }
 
   useEffect(() => {
-    if (!gltf?.scene) return
-    
-    gltf.scene.traverse((child: THREE.Object3D) => {
-      if ((child as THREE.Mesh).isMesh) {
-        const mesh = child as THREE.Mesh
-        mesh.castShadow = true
-        mesh.receiveShadow = true
-      }
-    })
-    
-    console.log('Shadows enabled for car model')
+    if (!gltf?.scene) {
+      console.warn('3D model scene not available')
+      return
+    }
+
+    try {
+      gltf.scene.traverse((child: THREE.Object3D) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh
+          mesh.castShadow = true
+          mesh.receiveShadow = true
+        }
+      })
+
+      console.log('Shadows enabled for car model')
+    } catch (e) {
+      console.error('Error setting up shadows:', e)
+    }
   }, [gltf])
+
+  if (error || !gltf?.scene) {
+    return null
+  }
 
   return <primitive object={gltf.scene} {...props} />
 }
 
-useGLTF.preload('/models/bm-13evo.glb')
+try {
+  useGLTF.preload('/models/bm-13evo.glb')
+} catch (e) {
+  console.error('Failed to preload 3D model:', e)
+}
