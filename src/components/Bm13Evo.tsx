@@ -1337,7 +1337,7 @@ type GLTFResult = GLTF & {
 }
 
 export default function Bm13Evo(props: React.ComponentProps<"group">) {
-  const gltf = useGLTF("/models/bm-13evo.glb") as unknown as GLTFResult
+  const gltf = useGLTF("/public/models/bm-13evo.glb") as unknown as GLTFResult
 
   useEffect(() => {
     if (!gltf?.scene) {
