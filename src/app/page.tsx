@@ -16,6 +16,9 @@ export default function HomePage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [targetPage, setTargetPage] = useState(0);
+  const [isDraggingSilver, setIsDraggingSilver] = useState(false);
+  const [silverStartX, setSilverStartX] = useState(0);
+  const [silverDragOffset, setSilverDragOffset] = useState(0);
 
   const pages = [
     { 
@@ -30,28 +33,28 @@ export default function HomePage() {
       title: 'OUR CARS', 
       number: 'Our Cars',
       description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      image: '/assets/slider/ourCars.svg'
+      image: '/assets/slider/news.svg'
     },
     { 
       id: 'newsPage', 
       title: 'NEWS', 
       number: 'News',
       description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.',
-      image: '/images/news.jpg'
+      image: '/assets/slider/news.svg'
     },
     { 
       id: 'contactPage', 
       title: 'CONTACT', 
       number: 'Contact',
       description: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro',
-      image: '/images/contact.jpg'
+      image: '/assets/slider/news.svg'
     },
     { 
       id: 'GalleryPage', 
       title: 'GALLERY', 
       number: 'Gallery',
-      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?',
-      image: '/images/gallery.jpg'
+      description: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae',
+      image: '/assets/slider/news.svg'
     },
   ];
 
@@ -147,6 +150,33 @@ export default function HomePage() {
   setTargetPage(0);
 };
 
+  const handleSilverMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    setIsDraggingSilver(true);
+    setSilverStartX(e.pageX);
+    e.currentTarget.style.cursor = 'grabbing';
+  };
+
+  const handleSilverMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDraggingSilver) return;
+    e.preventDefault();
+    const deltaX = e.pageX - silverStartX;
+    setSilverDragOffset(deltaX);
+  };
+
+  const handleSilverMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
+    setIsDraggingSilver(false);
+    setSilverDragOffset(0);
+    e.currentTarget.style.cursor = 'grab';
+  };
+
+  const handleSilverMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isDraggingSilver) {
+      setIsDraggingSilver(false);
+      setSilverDragOffset(0);
+      e.currentTarget.style.cursor = 'grab';
+    }
+  };
+
   return (
      <main>
       <div className="bg-white relative max-w-screen min-h-screen">
@@ -178,27 +208,32 @@ export default function HomePage() {
             )}
 
             {/* EXPLORE BUTTON */}
-            <div className="absolute left-1/2 -translate-x-1/2 bottom-[10vh] z-40 hover:drop-shadow-[20px_10px_0_rgba(242,1,60,1)] transition-all duration-[340ms]">
+            <div className="absolute left-1/2 -translate-x-1/2 bottom-[8vh] sm:bottom-[10vh] z-40 hover:drop-shadow-[10px_5px_0_rgba(242,1,60,1)] sm:hover:drop-shadow-[15px_8px_0_rgba(242,1,60,1)] md:hover:drop-shadow-[20px_10px_0_rgba(242,1,60,1)] transition-all duration-[340ms]">
               <button
                 onClick={() => {
                   scrollToSection()
                 }}
                 type="button"
-                className="flex items-center justify-center bg-[#CC0100] w-[18vw] h-[3.125vw]
-                          relative overflow-hidden text-white shadow-2xl 
-                          transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-[#050014] 
+                className="flex items-center justify-center bg-[#CC0100]
+                          w-32 h-10
+                          sm:w-40 sm:h-12
+                          md:w-48 md:h-14
+                          lg:w-56 lg:h-16
+                          xl:w-64 xl:h-16
+                          relative overflow-hidden text-white shadow-2xl
+                          transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-[#050014]
                           before:transition-all before:duration-[340ms] hover:text-white hover:before:left-0 hover:before:w-full active:before:bg-[#003A6C] active:before:transition-none">
-                <p className="relative z-10 text-auto font-monument-extended-regular font-bold">
+                <p className="relative z-10 text-xs sm:text-sm md:text-base lg:text-lg font-monument-extended-regular font-bold">
                   EXPLORE NOW
                 </p>
               </button>
             </div>
 
             {/* Camera Control Buttons */}
-            <div className="absolute left-[5vw] top-1/2 -translate-y-1/2 flex flex-col gap-4 bg-[#CC0100] rounded-full py-6 px-3 z-10 max-w-[80px]">
+            <div className="absolute left-2 sm:left-4 md:left-6 lg:left-8 top-1/2 -translate-y-1/2 flex flex-col gap-2 sm:gap-3 md:gap-4 bg-[#CC0100] rounded-full py-3 px-2 sm:py-4 sm:px-2.5 md:py-5 md:px-3 lg:py-6 lg:px-3 z-10">
               <button
                 onClick={() => handleCameraChange([-7.5, 1.5, 0])}
-                className="px-3 py-2 bg-transparent text-white rounded text-sm font-calcio hover:bg-[#6B0000] transition-colors"
+                className="px-2 py-1.5 sm:px-2.5 sm:py-2 md:px-3 md:py-2 bg-transparent text-white rounded text-xs sm:text-sm md:text-base font-calcio hover:bg-[#6B0000] transition-colors whitespace-nowrap"
               >
                 Front
               </button>
@@ -207,19 +242,19 @@ export default function HomePage() {
                   handleCameraChange([-5, 0.5, 3]);
                   setLookAt([-1, 1, 0]);
                 }}
-                className="px-3 py-2 bg-transparent text-white rounded text-sm font-calcio hover:bg-[#6B0000] transition-colors"
+                className="px-2 py-1.5 sm:px-2.5 sm:py-2 md:px-3 md:py-2 bg-transparent text-white rounded text-xs sm:text-sm md:text-base font-calcio hover:bg-[#6B0000] transition-colors whitespace-nowrap"
               >
                 Front Left
               </button>
               <button
                 onClick={() => handleCameraChange([3, 8, 0])}
-                className="px-3 py-2 bg-transparent text-white rounded text-sm font-calcio hover:bg-[#6B0000] transition-colors"
+                className="px-2 py-1.5 sm:px-2.5 sm:py-2 md:px-3 md:py-2 bg-transparent text-white rounded text-xs sm:text-sm md:text-base font-calcio hover:bg-[#6B0000] transition-colors whitespace-nowrap"
               >
                 Top
               </button>
               <button
                 onClick={() => handleCameraChange([3, 1, -2])}
-                className="px-3 py-2 bg-transparent text-white rounded text-sm font-calcio hover:bg-[#6B0000] transition-colors"
+                className="px-2 py-1.5 sm:px-2.5 sm:py-2 md:px-3 md:py-2 bg-transparent text-white rounded text-xs sm:text-sm md:text-base font-calcio hover:bg-[#6B0000] transition-colors whitespace-nowrap"
               >
                 Rear Right
               </button>
@@ -348,8 +383,16 @@ export default function HomePage() {
                       {/* RIGHT - CONTENT */}
                       <div className="relative w-full lg:w-[50%] h-full flex flex-col items-center justify-center pl-[2vw] overflow-hidden">
 
-                        {/* Content Group */}
-                        <div className="w-full flex flex-col gap-6 lg:gap-8">
+                        {/* Glassmorphism Wrapper */}
+                        <div className={`w-full p-8 ${
+                          page.id === 'ourCarsPage'
+                            ? ' bg-black/20 backdrop-blur-md border border-white/20'
+                            : ''
+                        }`}>
+
+                          {/* Content Group */}
+                          <div className="w-full flex flex-col gap-6 lg:gap-8">
+
                           {/* Page Markers */}
                           <div className="w-full flex flex-col items-center gap-4">
                             <div className="flex items-center justify-between w-full">
@@ -360,7 +403,9 @@ export default function HomePage() {
                                 let buttonClasses = 'font-monument-extended-regular text-[8px] sm:text-xs lg:text-sm transition-all duration-300 text-left';
 
                                 if (isActive) {
-                                  buttonClasses += ' text-[#CC0100] font-bold scale-110';
+                                  buttonClasses += isOurCarsPage
+                                    ? ' text-[#FFCA01] font-bold scale-110'
+                                    : ' text-[#CC0100] font-bold scale-110';
                                 } else if (isOurCarsPage) {
                                   buttonClasses += ' text-white hover:!text-[#FFCA01]';
                                 } else {
@@ -382,7 +427,9 @@ export default function HomePage() {
                             {/* Line Indicator */}
                             <div className="relative w-full h-0.5 bg-gray-300">
                               <div
-                                className="absolute top-0 h-full bg-[#CC0100]"
+                                className={`absolute top-0 h-full ${
+                                  page.id === 'ourCarsPage' ? 'bg-[#FFCA01]' : 'bg-[#CC0100]'
+                                }`}
                                 style={{
                                   width: `${scrollProgress * 100}%`,
                                 }}
@@ -400,13 +447,17 @@ export default function HomePage() {
                           {/* Button */}
                           <button
                             onClick={() => window.location.href = `/${page.id.replace('Page', '')}`}
-                            className="group relative px-8 py-4 bg-transparent border-2 border-[#CC0100] text-[#CC0100]
-                                      font-bold text-sm sm:text-base tracking-wider self-start
-                                      hover:text-white transition-all duration-300 overflow-hidden"
+                            className={`group relative w-full px-8 py-4 bg-transparent border-2 font-bold text-sm sm:text-base tracking-wider hover:text-white transition-all duration-300 overflow-hidden ${
+                              page.id === 'ourCarsPage'
+                                ? 'border-[#FFCA01] text-[#FFCA01]'
+                                : 'border-[#CC0100] text-[#CC0100]'
+                            }`}
                             style={{ fontFamily: 'Monument Extended Regular, Arial, sans-serif' }}
                           >
                             <span className="relative z-10">LEARN MORE</span>
-                            <div className="absolute inset-0 bg-[#CC0100] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+                            <div className={`absolute inset-0 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ${
+                              page.id === 'ourCarsPage' ? 'bg-[#FFCA01]' : 'bg-[#CC0100]'
+                            }`}></div>
                           </button>
 
                           {/* Tagline */}
@@ -415,6 +466,7 @@ export default function HomePage() {
                           }`}>
                             KEEP ACCELERATING FORWARD.
                           </p>
+                          </div>
                         </div>
 
                       </div>
@@ -426,6 +478,168 @@ export default function HomePage() {
             </div>
 
           </div>
+
+        {/* SPONSOR SECTION */}
+        <div id="sponsorPage" className="w-screen h-screen bg-white relative overflow-hidden">
+
+          {/* OUR SPONSORS TITLE */}
+          <div className="w-screen bg-[#CC0100] flex items-center justify-center py-4 sm:py-5 md:py-6 lg:py-8 mt-[80px] sm:mt-[80px] md:mt-[100px] lg:mt-[130px]">
+            <h2
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white"
+              style={{ fontFamily: 'Monument Extended Regular, Arial, sans-serif' }}
+            >
+              OUR SPONSORS
+            </h2>
+          </div>
+
+          {/* Sponsors Container */}
+          <div className="w-full h-[calc(100vh-80px-2rem)] sm:h-[calc(100vh-80px-2.5rem)] md:h-[calc(100vh-100px-3rem)] lg:h-[calc(100vh-130px-4rem)] flex flex-col justify-center items-center px-4 gap-4 md:gap-6 lg:gap-8">
+
+            {/* EXCLUSIVE */}
+            <div className="w-full flex justify-center items-center">
+              <img
+                src="/assets/sponsors/exclusive/jembo.svg"
+                alt="Jembo"
+                className="h-16 sm:h-20 md:h-28 lg:h-36 w-auto object-contain"
+              />
+            </div>
+
+            {/* PLATINUM */}
+            <div className="w-full flex justify-center items-center gap-6 md:gap-8 lg:gap-12 flex-wrap">
+              <img
+                src="/assets/sponsors/platinum/qualis.svg"
+                alt="Quails"
+                className="h-14 sm:h-16 md:h-24 lg:h-28 w-auto object-contain"
+              />
+              <img
+                src="/assets/sponsors/platinum/kissoft.svg"
+                alt="Kissoft"
+                className="h-14 sm:h-16 md:h-24 lg:h-28 w-auto object-contain"
+              />
+            </div>
+
+            {/* GOLD */}
+            <div className="w-full flex justify-center items-center gap-4 md:gap-6 lg:gap-10 flex-wrap">
+              <img
+                src="/assets/sponsors/gold/caditansys.svg"
+                alt="Caditansys"
+                className="h-12 sm:h-14 md:h-20 lg:h-24 w-auto object-contain"
+              />
+              <img
+                src="/assets/sponsors/gold/bluebird.svg"
+                alt="Bluebird"
+                className="h-12 sm:h-14 md:h-20 lg:h-24 w-auto object-contain"
+              />
+            </div>
+
+            {/* SILVER */}
+            <div
+              className="sponsor-scroll-container cursor-grab select-none"
+              onMouseDown={handleSilverMouseDown}
+              onMouseMove={handleSilverMouseMove}
+              onMouseUp={handleSilverMouseUp}
+              onMouseLeave={handleSilverMouseLeave}
+            >
+              <div
+                className={`sponsor-scroll-content sponsor-scroll-content-silver items-center ${isDraggingSilver ? 'paused' : ''}`}
+                aria-hidden="true"
+                style={isDraggingSilver ? { transform: `translate3d(${silverDragOffset}px, 0, 0)` } : undefined}
+              >
+                <img src="/assets/sponsors/silver/altium.svg" alt="Altium" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/solidbase.svg" alt="Solidbase" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/altiumdes.svg" alt="Altium Designer" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/vale.svg" alt="Vale" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/rapidharness.svg" alt="Rapid Harness" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/motul.svg" alt="Motul" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/ekraf.svg" alt="Ekraf" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/altium.svg" alt="Altium" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/solidbase.svg" alt="Solidbase" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/altiumdes.svg" alt="Altium Designer" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/vale.svg" alt="Vale" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/rapidharness.svg" alt="Rapid Harness" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/motul.svg" alt="Motul" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/ekraf.svg" alt="Ekraf" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/altium.svg" alt="Altium" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/solidbase.svg" alt="Solidbase" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/altiumdes.svg" alt="Altium Designer" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/vale.svg" alt="Vale" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/rapidharness.svg" alt="Rapid Harness" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/motul.svg" alt="Motul" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/ekraf.svg" alt="Ekraf" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/altium.svg" alt="Altium" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/solidbase.svg" alt="Solidbase" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/altiumdes.svg" alt="Altium Designer" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/vale.svg" alt="Vale" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/rapidharness.svg" alt="Rapid Harness" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/motul.svg" alt="Motul" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/ekraf.svg" alt="Ekraf" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/altium.svg" alt="Altium" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/solidbase.svg" alt="Solidbase" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/altiumdes.svg" alt="Altium Designer" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/vale.svg" alt="Vale" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/rapidharness.svg" alt="Rapid Harness" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/motul.svg" alt="Motul" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/ekraf.svg" alt="Ekraf" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/altium.svg" alt="Altium" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/solidbase.svg" alt="Solidbase" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/altiumdes.svg" alt="Altium Designer" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/vale.svg" alt="Vale" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/rapidharness.svg" alt="Rapid Harness" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/motul.svg" alt="Motul" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/silver/ekraf.svg" alt="Ekraf" className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain flex-shrink-0" />
+              </div>
+            </div>
+
+            {/* BRONZE */}
+            <div className="sponsor-scroll-container">
+              <div className="sponsor-scroll-content items-center" aria-hidden="true">
+                <img src="/assets/sponsors/bronze/badaklng.svg" alt="Badak LNG" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/pln.svg" alt="PLN" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/swaragama.svg" alt="Swaragama" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/rekind.svg" alt="Rekind" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/cakrakus.svg" alt="Cakra Kus" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/cakrakem.svg" alt="Cakra Kem" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/jbl.svg" alt="JBL" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/medco.svg" alt="Medco" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/badaklng.svg" alt="Badak LNG" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/pln.svg" alt="PLN" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/swaragama.svg" alt="Swaragama" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/rekind.svg" alt="Rekind" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/cakrakus.svg" alt="Cakra Kus" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/cakrakem.svg" alt="Cakra Kem" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/jbl.svg" alt="JBL" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/medco.svg" alt="Medco" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/badaklng.svg" alt="Badak LNG" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/pln.svg" alt="PLN" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/swaragama.svg" alt="Swaragama" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/rekind.svg" alt="Rekind" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/cakrakus.svg" alt="Cakra Kus" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/cakrakem.svg" alt="Cakra Kem" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/jbl.svg" alt="JBL" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/medco.svg" alt="Medco" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/badaklng.svg" alt="Badak LNG" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/pln.svg" alt="PLN" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/swaragama.svg" alt="Swaragama" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/rekind.svg" alt="Rekind" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/cakrakus.svg" alt="Cakra Kus" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/cakrakem.svg" alt="Cakra Kem" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/jbl.svg" alt="JBL" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+                <img src="/assets/sponsors/bronze/medco.svg" alt="Medco" className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain flex-shrink-0" />
+              </div>
+            </div>
+
+            {/* PERSONAL SUPPORT */}
+            <div className="w-full flex justify-center items-center gap-4 md:gap-6 lg:gap-8 flex-wrap">
+              <img src="/assets/sponsors/personal/desibel.svg" alt="Decibel" className="h-6 sm:h-8 md:h-10 lg:h-12 w-auto object-contain" />
+              <img src="/assets/sponsors/personal/enviro.svg" alt="Enviro" className="h-6 sm:h-8 md:h-10 lg:h-12 w-auto object-contain" />
+              <img src="/assets/sponsors/personal/europe.svg" alt="Europe" className="h-6 sm:h-8 md:h-10 lg:h-12 w-auto object-contain" />
+              <img src="/assets/sponsors/personal/iatm.svg" alt="IATM" className="h-6 sm:h-8 md:h-10 lg:h-12 w-auto object-contain" />
+              <img src="/assets/sponsors/personal/kenes.svg" alt="Kenes" className="h-6 sm:h-8 md:h-10 lg:h-12 w-auto object-contain" />
+              <img src="/assets/sponsors/personal/sgm.svg" alt="SGM" className="h-6 sm:h-8 md:h-10 lg:h-12 w-auto object-contain" />
+            </div>
+
+          </div>
+        </div>
 
         </div>
 

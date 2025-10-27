@@ -164,3 +164,84 @@ html::-webkit-scrollbar {
 .fade-reveal-load {
   animation: fadeRevealIntro 5s ease-in forwards;
 }
+
+/* Infinite Horizontal Scroll Animation */
+@keyframes scroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.sponsor-scroll-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+  mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+  contain: layout style paint;
+}
+
+.sponsor-scroll-container:active {
+  cursor: grabbing;
+}
+
+.sponsor-scroll-content {
+  display: flex;
+  width: max-content;
+  flex-shrink: 0;
+  gap: 2rem;
+  animation: scroll 40s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+.sponsor-scroll-content:hover {
+  animation-play-state: paused;
+}
+
+.sponsor-scroll-content-silver {
+  animation: scroll 60s linear infinite;
+}
+
+.sponsor-scroll-content-silver:hover {
+  animation-play-state: running;
+}
+
+.sponsor-scroll-content.paused {
+  animation-play-state: paused;
+}
+
+.sponsor-scroll-container img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+@media (max-width: 1024px) {
+  .sponsor-scroll-content {
+    animation: scroll 30s linear infinite;
+    gap: 1.5rem;
+  }
+
+  .sponsor-scroll-content-silver {
+    animation: scroll 45s linear infinite;
+  }
+}
+
+@media (max-width: 768px) {
+  .sponsor-scroll-content {
+    animation: scroll 20s linear infinite;
+    gap: 1rem;
+  }
+
+  .sponsor-scroll-content-silver {
+    animation: scroll 30s linear infinite;
+  }
+}

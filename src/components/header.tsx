@@ -53,6 +53,31 @@ export const Header = () => {
     }
   };
 
+  const handleSponsorsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      const sponsorSection = document.getElementById('sponsorPage');
+      if (sponsorSection) {
+        window.scrollTo({
+          top: sponsorSection.offsetTop,
+          behavior: "smooth"
+        });
+      }
+    } else {
+      e.preventDefault();
+      router.push("/");
+      setTimeout(() => {
+        const sponsorSection = document.getElementById('sponsorPage');
+        if (sponsorSection) {
+          window.scrollTo({
+            top: sponsorSection.offsetTop,
+            behavior: "smooth"
+          });
+        }
+      }, 100);
+    }
+  };
+
   const handleMobileNavClick = (href: string) => {
     setIsMobileMenuOpen(false);
     if (href === "/" && pathname === "/") {
@@ -60,6 +85,27 @@ export const Header = () => {
         top: 0,
         behavior: "smooth"
       });
+    } else if (href === "/sponsors") {
+      if (pathname === "/") {
+        const sponsorSection = document.getElementById('sponsorPage');
+        if (sponsorSection) {
+          window.scrollTo({
+            top: sponsorSection.offsetTop,
+            behavior: "smooth"
+          });
+        }
+      } else {
+        router.push("/");
+        setTimeout(() => {
+          const sponsorSection = document.getElementById('sponsorPage');
+          if (sponsorSection) {
+            window.scrollTo({
+              top: sponsorSection.offsetTop,
+              behavior: "smooth"
+            });
+          }
+        }, 100);
+      }
     }
   };
 
@@ -92,7 +138,13 @@ export const Header = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={item.href === "/" ? handleHomeClick : undefined}
+                onClick={
+                  item.href === "/"
+                    ? handleHomeClick
+                    : item.href === "/sponsors"
+                    ? handleSponsorsClick
+                    : undefined
+                }
                 className="relative rounded-full px-4 md:px-[20px] py-2 md:py-[10px] text-[#AE0101] font-century-gothic-regular transition-all duration-300 overflow-hidden
                     before:absolute before:inset-0 before:bg-[#AE0101] before:rounded-full before:w-0 before:h-full before:z-0 before:transition-all before:duration-300
                     hover:before:w-full hover:text-white text-xs sm:text-sm md:text-base lg:text-sm xl:text-base 2xl:text-lg"
