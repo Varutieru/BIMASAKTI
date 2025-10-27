@@ -4,7 +4,7 @@ import Header from "@/components/header";
 import { Canvas } from "@react-three/fiber";
 import Bm13Evo from "@/components/Bm13Evo";
 import CameraController from "@/components/cameraController";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import * as THREE from "three";
 
 export default function HomePage() {
@@ -295,25 +295,27 @@ export default function HomePage() {
                   target-position={[0, 0, 0]}
                 />
 
-                <mesh 
-                  rotation={[-Math.PI / 2, 0, 0]} 
-                  position={[0, 0.05, 0]} 
+                <mesh
+                  rotation={[-Math.PI / 2, 0, 0]}
+                  position={[0, 0.05, 0]}
                   receiveShadow
                 >
                   <planeGeometry args={[30, 200]} />
-                  <meshStandardMaterial 
-                    color="#ffffff" 
+                  <meshStandardMaterial
+                    color="#ffffff"
                     metalness={0}
                     roughness={0}
                   />
                 </mesh>
 
-                <Bm13Evo
-                  scale={0.5}
-                  position={[0, 0, 0]}
-                  castShadow
-                  receiveShadow
-                />
+                <Suspense fallback={null}>
+                  <Bm13Evo
+                    scale={0.5}
+                    position={[0, 0, 0]}
+                    castShadow
+                    receiveShadow
+                  />
+                </Suspense>
 
                 <CameraController
                   targetPosition={camPos}
